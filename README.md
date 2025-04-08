@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Brainrot Video Montage App
+
+A Next.js application for creating video montages from uploaded videos and music.
+
+## Features
+
+- Upload videos to custom folders
+- Upload music to custom folders
+- Create montages by selecting video and music folders
+- View and download completed montages
+
+## Technology Stack
+
+- **Frontend**: Next.js 14 with App Router
+- **Styling**: Tailwind CSS
+- **Cloud Storage**: AWS S3 (for storing videos and music)
+- **Asynchronous Processing**: Backend service for montage creation
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ and npm
+- AWS account with S3 buckets set up
+- AWS credentials with access to S3
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd brainrot/frontend
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Create a `.env.local` file in the root directory with your AWS credentials:
+   ```
+   NEXT_PUBLIC_AWS_REGION=your_aws_region
+   NEXT_PUBLIC_AWS_ACCESS_KEY_ID=your_access_key_id
+   NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY=your_secret_access_key
+   NEXT_PUBLIC_VIDEO_BUCKET_NAME=your_video_bucket_name
+   NEXT_PUBLIC_MUSIC_BUCKET_NAME=your_music_bucket_name
+   ```
+
+4. Start the development server:
+   ```
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Usage
+
+### Uploading Videos
+1. Navigate to "Upload Video"
+2. Create a new folder by providing a folder name
+3. Upload video files (MP4, MOV, or WebM)
+
+### Uploading Music
+1. Navigate to "Upload Music"
+2. Create a new folder by providing a folder name
+3. Upload audio files (MP3, WAV, or OGG)
+
+### Creating Montages
+1. Navigate to "Create Montage"
+2. Select a video folder
+3. Select a music folder
+4. Click "Create Montage"
+
+### Viewing Montages
+1. Navigate to "My Montages"
+2. View pending montage requests and completed montages
+3. Download completed montages
+
+## Development
+
+### Project Structure
+
+- `src/app/`: Contains page components
+- `src/components/`: Reusable UI components
+- `src/lib/`: Utility functions and types
+
+### Adding New Features
+
+- Create new components in `src/components/`
+- Add new pages in `src/app/`
+- Add utility functions in `src/lib/`
+
+## Deployment
+
+For production deployment:
+
+```
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Backend Integration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This frontend application connects to a backend service for processing montages. The backend should provide:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. S3 bucket access for uploaded files
+2. Video processing capabilities
+3. Montage creation and storage
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](LICENSE)
