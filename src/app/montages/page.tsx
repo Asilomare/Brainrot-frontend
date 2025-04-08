@@ -86,7 +86,7 @@ const MontagesPage: React.FC = () => {
 
           {!loading && !error && requests.length === 0 && (
             <div className="text-center py-10 bg-gray-50 rounded-lg">
-              <p className="text-gray-500">You haven't created any montages yet.</p>
+              <p className="text-gray-500">You haven&apos;t created any montages yet.</p>
               <Link href="/create-montage">
                 <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
                   Create Your First Montage

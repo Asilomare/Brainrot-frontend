@@ -1,13 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import PageLayout from '@/components/PageLayout';
 import FileUploader from '@/components/FileUploader';
 import FolderBrowser from '@/components/FolderBrowser';
 import CreateFolderForm from '@/components/CreateFolderForm';
 import { FileInfo } from '@/lib/types';
-import { listFolders, getFileTree } from '@/lib/s3';
+import { listFolders } from '@/lib/s3';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 export default function UploadVideoPage() {
@@ -344,7 +343,7 @@ export default function UploadVideoPage() {
                   
                   <div className="flex justify-between items-center mt-6">
                     <p className="text-sm text-gray-500">
-                      {uploadedFiles.length} video{uploadedFiles.length !== 1 ? 's' : ''} uploaded to "{selectedFolder ? getFolderDisplayName(selectedFolder) : folderName.replace(/_/g, ' ')}"
+                      {uploadedFiles.length} video{uploadedFiles.length !== 1 ? 's' : ''} uploaded to &quot;{selectedFolder ? getFolderDisplayName(selectedFolder) : folderName.replace(/_/g, ' ')}&quot;
                     </p>
                     <button
                       onClick={handleReset}

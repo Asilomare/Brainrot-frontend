@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FileInfo, FileType, UploadStatus } from '@/lib/types';
+import { FileInfo, FileType } from '@/lib/types';
 import { getPresignedUploadUrl } from '@/lib/s3';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -84,8 +84,8 @@ export default function FileUploader({
       xhr.setRequestHeader('Content-Type', file.type);
       xhr.send(file);
       
-    } catch (err: any) {
-      setError(err.message || 'Failed to upload file');
+    } catch (err) {
+      setError(String(err) || 'Failed to upload file');
       setUploading(false);
     }
   }, [type, folderName, onUploadComplete]);

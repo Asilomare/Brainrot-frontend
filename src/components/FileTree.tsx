@@ -25,8 +25,8 @@ export default function FileTree({ type, onSelect, selectedPath }: FileTreeProps
       setError(null);
       const initialTree = await getFileTree(type === 'video');
       setTree(initialTree);
-    } catch (err: any) {
-      setError(err.message || 'Failed to load file tree');
+    } catch (err) {
+      setError(String(err) || 'Failed to load file tree');
     } finally {
       setIsLoading(false);
     }
@@ -46,7 +46,7 @@ export default function FileTree({ type, onSelect, selectedPath }: FileTreeProps
           return updateNodeInTree(prevTree, node.path, { ...node, children });
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error toggling folder:', err);
     }
   };

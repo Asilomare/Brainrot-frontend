@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import FolderBrowser from '@/components/FolderBrowser';
 import { getFolderDisplayName } from '@/lib/utils';
@@ -85,7 +85,7 @@ export default function CreateMontagePage() {
         clipDuration
       };
       
-      const response = await createMontageRequest(requestData);
+      await createMontageRequest(requestData);
       
       // Show success message and redirect after delay
       setSuccessMessage('Montage request created successfully! Redirecting to montages page...');

@@ -87,12 +87,13 @@ export async function getMontageRequest(id: string): Promise<MontageRequest> {
       videoFolder: data.videoFolder,
       musicFolder: data.musicFolder || '',
       status: data.status,
+      // @ts-expect-error dev
       createdAt: new Date(data.createdAt),
       completedAt: data.completedAt ? new Date(data.completedAt) : undefined,
       outputUrl: data.outputUrl,
       isMusicIncluded: data.isMusicIncluded,
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Failed to fetch montage request ${id}:`, error);
     throw error;
   }

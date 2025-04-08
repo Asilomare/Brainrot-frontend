@@ -24,8 +24,8 @@ export default function FolderSelector({
         const folderList = await listFolders(type === 'video');
         setFolders(folderList);
         setError(null);
-      } catch (err: any) {
-        setError(err.message || 'Failed to load folders');
+      } catch (e) {
+        setError(String(e) || 'Failed to load folders');
       } finally {
         setLoading(false);
       }
