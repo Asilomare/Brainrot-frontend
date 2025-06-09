@@ -28,8 +28,8 @@ export default function UploadVideoPage() {
     'video/webm': ['.webm']
   };
   
-  // Maximum file size (100MB)
-  const maxFileSize = 100 * 1024 * 1024;
+  // Maximum file size (100GB)
+  const maxFileSize = 100 * 1024 * 1024 * 1024;
 
   // Fetch existing top-level folders when the component mounts
   useEffect(() => {
