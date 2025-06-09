@@ -115,7 +115,7 @@ const MontagesPage: React.FC = () => {
                           <div>
                             <p className="font-medium text-slate-600">
                               {/* {request.videoFolder.split("/").pop()}  */}
-                              {request.isMusicIncluded ? " with music" : " without music"}
+                              {request.prompt}
                             </p>
                             <p className="text-sm text-gray-500">
                               Created: {formatDate(request.createdAt)}

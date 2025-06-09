@@ -21,12 +21,15 @@ export interface FileInfo {
 // Montage data
 export interface MontageRequest {
   id: string;
-  videoFolder: string;
+  pk: string;
+  requestId: string;
+  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+  videoFolder?: string;
   musicFolder: string;
   isMusicIncluded: boolean;
+  prompt?: string;
   videoLength: number;
   numClips: number;
-  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
   createdAt: string;
   updatedAt?: string;
   result?: {

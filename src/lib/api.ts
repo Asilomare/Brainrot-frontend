@@ -2,15 +2,21 @@ import { MontageRequest } from './types';
 
 // Base URL for API requests
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.brainrot.com';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 /**
  * Creates a new montage request and submits it to the API
  */
 export const createMontageRequest = async (requestData: {
-  videoFolder: string;
+  prompt?: string;
+  videoFolder?: string;
   musicFolder: string;
   isMusicIncluded: boolean;
 }): Promise<MontageRequest> => {
+  if (!API_URL) {
+    throw new Error("Missing API_URL environment variable");
+  }
+
   try {
     const response = await fetch(`${API_BASE_URL}/montage`, {
       method: 'POST',
