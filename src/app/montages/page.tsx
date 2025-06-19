@@ -36,7 +36,11 @@ const MontagesPage: React.FC = () => {
   }, []);
 
   const handleSelectMontage = (montage: MontageRequest) => {
-    setSelectedMontage(montage);
+    if (selectedMontage?.id === montage.id) {
+      setSelectedMontage(null);
+    } else {
+      setSelectedMontage(montage);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -58,6 +62,63 @@ const MontagesPage: React.FC = () => {
         return <span className="px-2 py-1 bg-gray-200 text-gray-800 rounded-full text-xs font-medium">{status}</span>;
     }
   };
+
+  const MontageDetails: React.FC<{ montage: MontageRequest }> = ({ montage }) => (
+    <div className="p-4">
+      <div className="mb-4">
+        <p className="text-sm text-gray-500">ID: {montage.id}</p>
+        <p className="text-sm text-gray-500">
+          Created: {formatDate(montage.createdAt)}
+        </p>
+        {montage.updatedAt && (
+          <p className="text-sm text-gray-500">
+            Updated: {formatDate(montage.updatedAt)}
+          </p>
+        )}
+        <p className="text-sm text-gray-500">
+          Status: {getStatusBadge(montage.status)}
+        </p>
+        <p className="text-sm text-gray-500">
+          Video Folder: {montage.videoFolder}
+        </p>
+        {montage.isMusicIncluded && (
+          <p className="text-sm text-gray-500">
+            Music Folder: {montage.musicFolder}
+          </p>
+        )}
+      </div>
+
+      {montage.status === "COMPLETED" && montage.result && (
+        <div className="mt-4">
+          <h3 className="text-slate-600 font-semibold mb-2">Completed Montage</h3>
+          <div className="aspect-video relative overflow-hidden rounded-lg">
+            <video
+              src={montage.result.publicUrl}
+              controls
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="mt-2 flex justify-end">
+            <a
+              href={montage.result.publicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:text-blue-700 text-sm"
+            >
+              Download Video
+            </a>
+          </div>
+        </div>
+      )}
+
+      {montage.status === "FAILED" && montage.result && montage.result.error && (
+        <div className="mt-4 p-3 bg-red-100 text-red-700 rounded">
+          <h3 className="font-semibold mb-1">Error</h3>
+          <p className="text-sm">{montage.result.error}</p>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <ProtectedRoute>
@@ -104,93 +165,46 @@ const MontagesPage: React.FC = () => {
                   </div>
                   <ul className="divide-y divide-gray-200">
                     {requests.map((request) => (
-                      <li
-                        key={request.id}
-                        className={`p-4 hover:bg-gray-50 cursor-pointer ${
-                          selectedMontage?.id === request.id ? "bg-blue-50" : ""
-                        }`}
-                        onClick={() => handleSelectMontage(request)}
-                      >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <p className="font-medium text-slate-600">
-                              {/* {request.videoFolder.split("/").pop()}  */}
-                              {request.prompt}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              Created: {formatDate(request.createdAt)}
-                            </p>
+                      <React.Fragment key={request.id}>
+                        <li
+                          className={`p-4 hover:bg-gray-50 cursor-pointer ${
+                            selectedMontage?.id === request.id ? "bg-blue-50" : ""
+                          }`}
+                          onClick={() => handleSelectMontage(request)}
+                        >
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="font-medium text-slate-600">
+                                {/* {request.videoFolder.split("/").pop()}  */}
+                                {request.prompt}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                Created: {formatDate(request.createdAt)}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {getStatusBadge(request.status)}
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            {getStatusBadge(request.status)}
-                          </div>
-                        </div>
-                      </li>
+                        </li>
+                        {selectedMontage?.id === request.id && (
+                          <li className="md:hidden bg-blue-50 border-t border-blue-200">
+                            <MontageDetails montage={selectedMontage} />
+                          </li>
+                        )}
+                      </React.Fragment>
                     ))}
                   </ul>
                 </div>
               </div>
 
-              <div className="w-full md:w-1/2">
+              <div className="w-full md:w-1/2 hidden md:block">
                 {selectedMontage ? (
                   <div className="bg-white shadow-md rounded-lg overflow-hidden">
                     <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
                       <h2 className="text-lg text-slate-600 font-semibold">Montage Details</h2>
                     </div>
-                    <div className="p-4">
-                      <div className="mb-4">
-                        <p className="text-sm text-gray-500">ID: {selectedMontage.id}</p>
-                        <p className="text-sm text-gray-500">
-                          Created: {formatDate(selectedMontage.createdAt)}
-                        </p>
-                        {selectedMontage.updatedAt && (
-                          <p className="text-sm text-gray-500">
-                            Updated: {formatDate(selectedMontage.updatedAt)}
-                          </p>
-                        )}
-                        <p className="text-sm text-gray-500">
-                          Status: {getStatusBadge(selectedMontage.status)}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          Video Folder: {selectedMontage.videoFolder}
-                        </p>
-                        {selectedMontage.isMusicIncluded && (
-                          <p className="text-sm text-gray-500">
-                            Music Folder: {selectedMontage.musicFolder}
-                          </p>
-                        )}
-                      </div>
-
-                      {selectedMontage.status === "COMPLETED" && selectedMontage.result && (
-                        <div className="mt-4">
-                          <h3 className="text-slate-600 font-semibold mb-2">Completed Montage</h3>
-                          <div className="aspect-video relative overflow-hidden rounded-lg">
-                            <video
-                              src={selectedMontage.result.publicUrl}
-                              controls
-                              className="w-full h-full object-contain"
-                            />
-                          </div>
-                          <div className="mt-2 flex justify-end">
-                            <a
-                              href={selectedMontage.result.publicUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-500 hover:text-blue-700 text-sm"
-                            >
-                              Download Video
-                            </a>
-                          </div>
-                        </div>
-                      )}
-
-                      {selectedMontage.status === "FAILED" && selectedMontage.result && selectedMontage.result.error && (
-                        <div className="mt-4 p-3 bg-red-100 text-red-700 rounded">
-                          <h3 className="font-semibold mb-1">Error</h3>
-                          <p className="text-sm">{selectedMontage.result.error}</p>
-                        </div>
-                      )}
-                    </div>
+                    <MontageDetails montage={selectedMontage} />
                   </div>
                 ) : (
                   <div className="bg-gray-50 rounded-lg p-8 text-center h-full flex items-center justify-center">
